@@ -1,20 +1,80 @@
 {
-  "name": "imagemetadataplugin",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "imagemetadata",
+  "version": "0.0.1",
+  "description": "Capacitor plugin to get image metadata, specifically creation date from images stored on phone.",
+  "main": "dist/plugin.cjs.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "unpkg": "dist/plugin.js",
+  "files": [
+    "android/src/main/",
+    "android/build.gradle",
+    "dist/",
+    "ios/Sources",
+    "ios/Tests",
+    "Package.swift",
+    "Imagemetadata.podspec"
+  ],
+  "author": "evikadar",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jociandevi/imagemetadata.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jociandevi/imagemetadata/issues"
+  },
+  "keywords": [
+    "capacitor",
+    "plugin",
+    "native"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "verify": "npm run verify:ios && npm run verify:android && npm run verify:web",
+    "verify:ios": "xcodebuild -scheme Imagemetadata -destination generic/platform=iOS",
+    "verify:android": "cd android && ./gradlew clean build test && cd ..",
+    "verify:web": "npm run build",
+    "lint": "npm run eslint && npm run prettier -- --check && npm run swiftlint -- lint",
+    "fmt": "npm run eslint -- --fix && npm run prettier -- --write && npm run swiftlint -- --fix --format",
+    "eslint": "eslint . --ext ts",
+    "prettier": "prettier \"**/*.{css,html,ts,js,java}\"",
+    "swiftlint": "node-swiftlint",
+    "docgen": "docgen --api ImageMetadataPlugin --output-readme README.md --output-json dist/docs.json",
+    "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js",
+    "clean": "rimraf ./dist",
+    "watch": "tsc --watch",
+    "prepublishOnly": "npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "@capacitor/android": "^6.0.0",
-    "@capacitor/cli": "^6.0.0",
     "@capacitor/core": "^6.0.0",
-    "@capacitor/create-plugin": "^0.14.0",
+    "@capacitor/docgen": "^0.2.2",
     "@capacitor/ios": "^6.0.0",
-    "tslib": "^2.6.2"
+    "@ionic/eslint-config": "^0.3.0",
+    "@ionic/prettier-config": "^1.0.1",
+    "@ionic/swiftlint-config": "^1.1.2",
+    "eslint": "^7.11.0",
+    "prettier": "~2.3.0",
+    "prettier-plugin-java": "~1.0.2",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.32.0",
+    "swiftlint": "^1.0.1",
+    "typescript": "~4.1.5"
   },
-  "description": ""
+  "peerDependencies": {
+    "@capacitor/core": "^6.0.0"
+  },
+  "prettier": "@ionic/prettier-config",
+  "swiftlint": "@ionic/swiftlint-config",
+  "eslintConfig": {
+    "extends": "@ionic/eslint-config/recommended"
+  },
+  "capacitor": {
+    "ios": {
+      "src": "ios"
+    },
+    "android": {
+      "src": "android"
+    }
+  }
 }
