@@ -1,0 +1,20 @@
+{
+  "name": "imagemetadataplugin",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/create-plugin": "^0.14.0",
+    "@capacitor/ios": "^6.0.0",
+    "tslib": "^2.6.2"
+  },
+  "description": ""
+}
