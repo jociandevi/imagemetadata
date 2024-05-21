@@ -6,6 +6,7 @@ import com.getcapacitor.PluginCall;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.PluginMethod;
 
+
 @CapacitorPlugin(name = "ImageMetadataPlugin")
 public class ImageMetadataPlugin extends Plugin {
     private ImageMetadata implementation;
@@ -15,7 +16,27 @@ public class ImageMetadataPlugin extends Plugin {
         implementation = new ImageMetadata(getContext());
     }
 
-    @PluginMethod
+    @PluginMethod()
+    public void getImagesBetweenDates(PluginCall call) {
+        long validFrom = call.getLong("validFrom");
+        long validTo = call.getLong("validTo");
+
+        if (validFrom == 0 || validTo == 0) {
+            call.reject("Valid date range must be provided.");
+            return;
+        }
+
+        try {
+            List<String> imagePaths = implementation.getImagesBetweenDates(new Date(validFrom), new Date(validTo));
+            JSObject ret = new JSObject();
+            ret.put("imagePaths", new JSONArray(imagePaths));
+            call.resolve(ret);
+        } catch (Exception e) {
+            call.reject("Error fetching images: " + e.getMessage());
+        }
+    }
+
+    @PluginMethod()
     public void getMetadata(PluginCall call) {
         String filePath = call.getString("filePath");
 

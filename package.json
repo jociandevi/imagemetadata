@@ -1,6 +1,6 @@
 {
-  "name": "imagemetadata",
-  "version": "1.0.0",
+  "name": "@evikadar/imagemetadata",
+  "version": "1.0.1",
   "description": "A custom Capacitor plugin to get image metadata",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -55,11 +55,12 @@
     "@ionic/eslint-config": "^0.3.0",
     "@ionic/prettier-config": "^1.0.1",
     "@ionic/swiftlint-config": "^1.1.2",
+    "@types/node": "^14.18.63",
     "eslint": "^7.11.0",
     "prettier": "~2.3.0",
     "prettier-plugin-java": "~1.0.2",
     "rimraf": "^3.0.2",
-    "rollup": "^2.32.0",
+    "rollup": "^2.79.1",
     "swiftlint": "^1.0.1",
     "typescript": "~4.1.5"
   },
