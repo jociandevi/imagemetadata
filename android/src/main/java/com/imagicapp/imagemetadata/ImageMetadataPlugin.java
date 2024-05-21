@@ -4,7 +4,12 @@ import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import com.getcapacitor.annotation.PluginMethod;
+import com.getcapacitor.PluginMethod;
+
+import org.json.JSONArray;
+
+import java.util.List;
+import java.util.Date;
 
 
 @CapacitorPlugin(name = "ImageMetadataPlugin")
