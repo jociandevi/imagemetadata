@@ -26,6 +26,8 @@ public class ImageMetadataPlugin extends Plugin {
         long validFrom = call.getLong("validFrom");
         long validTo = call.getLong("validTo");
 
+        implementation.logCrashlyticsMessage("Fetching images between dates: validFrom=" + validFrom + ", validTo=" + validTo);
+
         if (validFrom == 0 || validTo == 0) {
             call.reject("Valid date range must be provided.");
             return;
@@ -33,10 +35,12 @@ public class ImageMetadataPlugin extends Plugin {
 
         try {
             List<String> imagePaths = implementation.getImagesBetweenDates(new Date(validFrom), new Date(validTo));
+            implementation.logCrashlyticsMessage("Fetched " + imagePaths.size() + " images.");
             JSObject ret = new JSObject();
             ret.put("imagePaths", new JSONArray(imagePaths));
             call.resolve(ret);
         } catch (Exception e) {
+            implementation.logCrashlyticsMessage("Error fetching images: " + e.getMessage());
             call.reject("Error fetching images: " + e.getMessage());
         }
     }
@@ -61,6 +65,23 @@ public class ImageMetadataPlugin extends Plugin {
             }
         } catch (Exception e) {
             call.reject("Error retrieving metadata: " + e.getMessage());
+        }
+    }
+
+    @PluginMethod()
+    public void logCrashlyticsMessage(PluginCall call) {
+        String message = call.getString("message");
+
+        if (message == null) {
+            call.reject("Message must be provided.");
+            return;
+        }
+
+        try {
+            implementation.logCrashlyticsMessage(message);
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("Error logging message: " + e.getMessage());
         }
     }
 }

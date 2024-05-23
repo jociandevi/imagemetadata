@@ -7,15 +7,20 @@ import android.provider.MediaStore;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 public class ImageMetadata {
     private Context context;
 
     public ImageMetadata(Context context) {
         this.context = context;
+        FirebaseApp.initializeApp(context);
     }
 
     public List<String> getImagesBetweenDates(Date validFrom, Date validTo) {
+        FirebaseCrashlytics.getInstance().log("Fetching images between dates: validFrom=" + validFrom.getTime() + ", validTo=" + validTo.getTime());
+
         List<String> imagePaths = new ArrayList<>();
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         String[] projection = { MediaStore.Images.Media.DATA, MediaStore.Images.Media.DATE_TAKEN };
@@ -29,6 +34,8 @@ public class ImageMetadata {
             while (cursor.moveToNext()) {
                 String filePath = cursor.getString(dataIndex);
                 long dateTaken = cursor.getLong(dateTakenIndex);
+                FirebaseCrashlytics.getInstance().log("Checking image: " + filePath + " with dateTaken=" + dateTaken);
+
                 if (dateTaken >= validFrom.getTime() && dateTaken <= validTo.getTime()) {
                     imagePaths.add(filePath);
                 }
@@ -50,5 +57,9 @@ public class ImageMetadata {
             return new Date(dateTaken);
         }
         return null;
+    }
+
+    public void logCrashlyticsMessage(String message) {
+        FirebaseCrashlytics.getInstance().log(message);
     }
 }
