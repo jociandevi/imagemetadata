@@ -1,6 +1,6 @@
 {
   "name": "@evikadar/imagemetadata",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A custom Capacitor plugin to get image metadata",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
