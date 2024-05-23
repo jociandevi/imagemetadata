@@ -19,9 +19,7 @@ public class ImageMetadata {
     }
 
     public List<String> getImagesBetweenDates(Date validFrom, Date validTo) {
-        FirebaseCrashlytics.recordException({
-            message: "Data from the ImageMetadata class"
-          });
+        FirebaseCrashlytics.getInstance().recordException("Lets see what is in the ImageMetadata class!")
         FirebaseCrashlytics.getInstance().log("Fetching images between dates: validFrom=" + validFrom.getTime() + ", validTo=" + validTo.getTime());
 
         List<String> imagePaths = new ArrayList<>();
