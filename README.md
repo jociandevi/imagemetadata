@@ -14,6 +14,9 @@ npx cap sync
 <docgen-index>
 
 * [`echo(...)`](#echo)
+* [`getImagesBetweenDates(...)`](#getimagesbetweendates)
+* [`getMetadata(...)`](#getmetadata)
+* [`logCrashlyticsMessage(...)`](#logcrashlyticsmessage)
 
 </docgen-index>
 
@@ -31,6 +34,49 @@ echo(options: { value: string; }) => Promise<{ value: string; }>
 | **`options`** | <code>{ value: string; }</code> |
 
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
+### getImagesBetweenDates(...)
+
+```typescript
+getImagesBetweenDates(options: { validFrom: number; validTo: number; }) => Promise<{ imagePaths: string[]; }>
+```
+
+| Param         | Type                                                 |
+| ------------- | ---------------------------------------------------- |
+| **`options`** | <code>{ validFrom: number; validTo: number; }</code> |
+
+**Returns:** <code>Promise&lt;{ imagePaths: string[]; }&gt;</code>
+
+--------------------
+
+
+### getMetadata(...)
+
+```typescript
+getMetadata(options: { filePath: string; }) => Promise<{ creationDate: number; }>
+```
+
+| Param         | Type                               |
+| ------------- | ---------------------------------- |
+| **`options`** | <code>{ filePath: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ creationDate: number; }&gt;</code>
+
+--------------------
+
+
+### logCrashlyticsMessage(...)
+
+```typescript
+logCrashlyticsMessage(options: { message: string; }) => Promise<void>
+```
+
+| Param         | Type                              |
+| ------------- | --------------------------------- |
+| **`options`** | <code>{ message: string; }</code> |
 
 --------------------
 
