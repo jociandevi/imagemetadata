@@ -19,33 +19,39 @@ public class ImageMetadata {
     }
 
     public List<String> getImagesBetweenDates(Date validFrom, Date validTo) {
-        FirebaseCrashlytics.getInstance().recordException("Lets see what is in the ImageMetadata class!")
-        FirebaseCrashlytics.getInstance().log("Fetching images between dates: validFrom=" + validFrom.getTime() + ", validTo=" + validTo.getTime());
+        FirebaseCrashlytics.getInstance().recordException(new Exception("In the ImageMetadata " +
+        "class"));
+        FirebaseCrashlytics.getInstance().log("Values I got: validFrom=" + validFrom +
+                ", validTo=" + validTo);
+        FirebaseCrashlytics.getInstance().log("What I will actually use: validFrom=" + validFrom.getTime() + ", validTo=" + validTo.getTime());
 
         List<String> imagePaths = new ArrayList<>();
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         String[] projection = { MediaStore.Images.Media.DATA, MediaStore.Images.Media.DATE_TAKEN };
         String selection = MediaStore.Images.Media.DATE_TAKEN + " BETWEEN ? AND ?";
         String[] selectionArgs = { String.valueOf(validFrom.getTime()), String.valueOf(validTo.getTime()) };
+    
         Cursor cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
-
-        if (cursor != null) {
-            int dataIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            int dateTakenIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN);
-            while (cursor.moveToNext()) {
-                String filePath = cursor.getString(dataIndex);
-                long dateTaken = cursor.getLong(dateTakenIndex);
-                FirebaseCrashlytics.getInstance().log("Checking image: " + filePath + " with dateTaken=" + dateTaken);
-
+        if (cursor == null) {
+            FirebaseCrashlytics.getInstance().("Cursor is null");
+        } else if (cursor.moveToFirst()) {
+            do {
+                String filePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+                long dateTaken = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN));
+                FirebaseCrashlytics.getInstance().log("Found image: " + filePath + " with dateTaken=" + dateTaken);
+    
                 if (dateTaken >= validFrom.getTime() && dateTaken <= validTo.getTime()) {
                     imagePaths.add(filePath);
                 }
-            }
+            } while (cursor.moveToNext());
             cursor.close();
+        } else {
+            FirebaseCrashlytics.getInstance().log("No images found in the specified range.");
         }
-
+    
         return imagePaths;
     }
+    
 
     public Date getCreationDate(String filePath) {
         Uri uri = Uri.parse(filePath);
@@ -61,9 +67,8 @@ public class ImageMetadata {
     }
 
     public void logCrashlyticsMessage(String message) {
-        FirebaseCrashlytics.recordException({
-            message: "Calling the logCrashlyticsMessage function to actually see it"
-          });
+        FirebaseCrashlytics.getInstance().recordException(new Exception("In the logCrashlyticsMessage " +
+        "function"));
         FirebaseCrashlytics.getInstance().log(message);
     }
 }
